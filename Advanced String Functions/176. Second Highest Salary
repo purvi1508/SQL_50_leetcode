@@ -1,0 +1,9 @@
+# Write your MySQL query statement below
+SELECT DISTINCT (
+    SELECT DISTINCT salary
+    FROM Employee
+    ORDER BY salary DESC
+    LIMIT 1 OFFSET 1
+) AS SecondHighestSalary;
+#The LIMIT clause is used to specify the maximum number of rows to return in the result set. 
+#The OFFSET clause is used to skip a specified number of rows before starting to retrieve rows.
