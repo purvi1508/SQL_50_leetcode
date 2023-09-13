@@ -1,0 +1,24 @@
+# Write your MySQL query statement below
+-- Calculate the fraction of players who logged in on the first day of their gameplay.
+
+-- Select statement to calculate the fraction
+SELECT
+  -- Round the result to two decimal places
+  ROUND(
+    -- Count the distinct player IDs in the Activity table
+    COUNT(DISTINCT player_id) /
+    
+    -- Subquery to count the total distinct player IDs in the Activity table
+    (SELECT COUNT(DISTINCT player_id) FROM Activity), 2
+  ) AS fraction
+FROM
+  Activity
+WHERE
+  -- Check if (player_id, event_date - 1 day) is in the subquery result
+  (player_id, DATE_SUB(event_date, INTERVAL 1 DAY))
+  IN (
+    -- Subquery to find the first login date for each player
+    SELECT player_id, MIN(event_date) AS first_login
+    FROM Activity
+    GROUP BY player_id
+  )
